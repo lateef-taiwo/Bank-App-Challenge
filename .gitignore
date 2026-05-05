@@ -1,2 +1,23 @@
 node_modules
 .DS_Store
+
+# Terraform - local directories and state
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfstate.*.backup
+
+# Terraform - sensitive variable files
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform - crash logs
+crash.log
+crash.*.log
+
+# Terraform - plan files (may contain secrets)
+*.tfplan
