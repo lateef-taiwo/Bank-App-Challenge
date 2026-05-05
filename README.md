@@ -114,3 +114,23 @@ Now, we want to dockerize the application and run it as docker containers. We cr
         CMD ["nginx", "-g", "daemon off;"]
 
 In the Dockerfile above, we use a node:alpine3.16 as a base image, this gives us a small image size.
+
+
+            ecr_configs = {
+
+                # This one entry owns the replication singleton.
+                # List ALL repos you want replicated here.
+                my-app = {
+                    name                         = "my-app"
+                    image_tag_mutability         = "MUTABLE"
+                    image_scanning_configuration = { scan_on_push = true }
+                    kms_key_arn                  = "arn:aws:kms:us-west-2:005654795190:key/xxx"
+                    create_replication_config    = true
+                    cross_region_replication_rules = [
+                    { destination_region = "us-east-2", destination_registry_id = "005654795190", replicate_all_repositories = false, repository_filter_value = "my-app",      repository_filter_type = "PREFIX_MATCH" },
+                    { destination_region = "us-east-2", destination_registry_id = "005654795190", replicate_all_repositories = false, repository_filter_value = "another-app",  repository_filter_type = "PREFIX_MATCH" },
+                    { destination_region = "us-east-2", destination_registry_id = "005654795190", replicate_all_repositories = false, repository_filter_value = "third-app",    repository_filter_type = "PREFIX_MATCH" },
+                    # ... add all 15+ repos here
+                    ]
+                }
+
